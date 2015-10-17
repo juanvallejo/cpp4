@@ -1,3 +1,5 @@
 .DS_Store
 *.vcxproj
 *.vcxproj.*
+*.o
+Project4
