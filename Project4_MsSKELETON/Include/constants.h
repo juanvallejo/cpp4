@@ -25,7 +25,7 @@ const int	ERROR_DATA_NULL						= SUCCEEDED -23;
 
 const double		UNINITIALIZED					= -1.0;
 
-const std::string	TEST_FILE_NAME			= "../include/Textfile.txt";
+const std::string	TEST_FILE_NAME			= "../Include/TextFile.txt";
 const std::string 	OUTPUTFILENAME	 		= "../include/OutputStrings.txt";
 const std::string 	EXITCHAR 				= "X";
 const std::string	ENTER_FN_OR_X			= "Please enter a filename or an X to eXit";

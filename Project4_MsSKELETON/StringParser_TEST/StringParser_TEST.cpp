@@ -24,8 +24,10 @@ void foreach(std::vector<std::string> myVector){
 
 int main(){
 	//TODO open file, if not there ask for a different file or exit
-	std::string contents = "";
-	KP_FileReaderClass::FileReader::getFileContents(TEST_FILE_NAME, contents);
+	std::string contents;
+
+	KP_FileReaderClass::FileReader fileReader;
+	fileReader.getFileContents(TEST_FILE_NAME, contents);
 
 	//got file data, this is a bogus time and memory wasting step
 	//whose sole purpose is to provide a way to pass
