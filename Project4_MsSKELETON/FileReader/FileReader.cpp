@@ -41,9 +41,12 @@ int KP_FileReaderClass::FileReader::ReadTheWholeFile(const std::string& filename
 	std::string line;
 
 	for(;std::getline(file, line);) {
-		if(line.at(line.length() - 1) == '\r' || line.at(line.length() - 1) == '\n') {
-			line.pop_back();
+
+		// convert line endings to UNIX-style
+		if(line.at(line.length() - 1) == '\r') {
+			line.back() = '\n';
 		}
+		
 		this->filecontents += line;
 	}
 

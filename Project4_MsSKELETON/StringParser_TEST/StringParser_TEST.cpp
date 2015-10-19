@@ -13,7 +13,7 @@
 #include "../Include/FileReader.h"	//relative path, from PWD, go up one, then down into Include to find FileReader.h
 #include "../Include/constants.h"
 #include "../Include/Debug_Help.h"
-#include "../Include/stringparserclass.h"
+#include "../Include/StringParserClass.h"
 
 void outputvectorrow(std::string i){
 	std::cout<<i<<std::endl;
@@ -22,7 +22,8 @@ void foreach(std::vector<std::string> myVector){
 	std::for_each(myVector.begin(), myVector.end(), outputvectorrow);
 }
 
-int main(){
+int main() {
+
 	//TODO open file, if not there ask for a different file or exit
 	std::string contents;
 
@@ -36,12 +37,20 @@ int main(){
 	std::copy(filecontents.begin(), filecontents.end(), back_inserter(myLine));*/
 
 	//TODO  create an instance of the stringparser
+	KP_StringParserClass::StringParserClass stringParser;
 
 	//TODO set the tags
+	stringParser.setTags(START_TAG, END_TAG);
 
 	//TODO pull out the data
+	std::vector<std::string> strings;
+	const char* f_contents = contents.c_str();
+	stringParser.getDataBetweenTags((char *)f_contents, strings);
 
 	//TODO  write to file and to screen
+	for(int i = 0; i < strings.size(); i++) {
+		std::cout << strings.at(i) << std::endl;
+	}
 
 }
 
