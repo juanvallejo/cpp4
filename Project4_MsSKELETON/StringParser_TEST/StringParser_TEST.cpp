@@ -1,10 +1,9 @@
-//============================================================================
-// Name        : Proj4_Test.cpp
-// Author      : 
-// Version     :
-// Copyright   : Your copyright notice
-// Description : Hello World in C++, Ansi-style
-//============================================================================
+/**
+ * Proj4_Test.cpp
+ * @juanvallejo
+ * v1.0
+ * Hello Worls in C++, Ansi-style
+ */
 
 #include <iostream>
 #include <algorithm>

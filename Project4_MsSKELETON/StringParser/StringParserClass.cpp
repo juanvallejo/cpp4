@@ -5,9 +5,6 @@
 #include "../Include/constants.h"
 #include "../Include/Debug_Help.h"
 
-using namespace std;
-using namespace KP_StringParserClass;
-
 //TODO Fill this in
 KP_StringParserClass::StringParserClass::StringParserClass() {
 
@@ -18,10 +15,10 @@ KP_StringParserClass::StringParserClass::~StringParserClass() {
 }
 
 int KP_StringParserClass::StringParserClass::getLastError() {
-	if(!this->lastError) {
-		this->lastError = 0;
-	}
-	return this->lastError;
+	
+	int lError = this->lastError;
+	this->lastError = ERROR_NO_ERROR;
+	return lError;
 }
 
 bool KP_StringParserClass::StringParserClass::setTags(const char* pStartTag, const char* pEndTag) {
@@ -34,8 +31,14 @@ bool KP_StringParserClass::StringParserClass::setTags(const char* pStartTag, con
 bool KP_StringParserClass::StringParserClass::getDataBetweenTags(char* pDataToSearchThru, vector<std::string>& myVector) {
 
 	if(!this->areTagsSet) {
-		std::cout << "ERR" << "Please set tags to match before attempting to parse a file." << std::endl;
-		return 0;
+		// this->lastError = "Tags must be set (setTags()) before attempting to parse file contents";
+		this->lastError = ERROR_TAGS_NULL;
+		return false;
+	}
+
+	if(!pDataToSearchThru) {
+		this->lastError = ERROR_DATA_NULL;
+		return false;
 	}
 
 	char* line = (char *)malloc(sizeof(char) * 1000);
@@ -108,4 +111,11 @@ bool KP_StringParserClass::StringParserClass::findTag(char* pTagToLookFor, char*
 	}
 
 	return match_found;
+}
+
+void cleanup() {
+	this->areTagsSet = false;
+	this->lastError = ERROR_NO_ERROR;
+	this->pStartTag = 0;
+	this->pEndTag = 0;
 }

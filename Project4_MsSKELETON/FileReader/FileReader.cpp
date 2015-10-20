@@ -25,6 +25,8 @@ int KP_FileReaderClass::FileReader::getFileContents(const std::string filename, 
 
 		if(input_stream != EXITCHAR) {
 			this->getFileContents(std::string(input_stream), contents);
+		} else {
+			exit(USER_CHOSE_TO_EXIT);
 		}
 
 	} else {
