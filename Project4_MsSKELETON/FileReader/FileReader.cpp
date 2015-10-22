@@ -13,6 +13,8 @@ KP_FileReaderClass::FileReader::~FileReader() {}
 //TODO Fill this in
 int KP_FileReaderClass::FileReader::getFileContents(const std::string filename, std::string& contents) {
 	
+	int exitCode = SUCCEEDED;
+
 	this->filecontents = contents;
 	std::ifstream file(filename);
 
@@ -30,17 +32,21 @@ int KP_FileReaderClass::FileReader::getFileContents(const std::string filename, 
 		}
 
 	} else {
-		this->ReadTheWholeFile(filename);
+		exitCode = this->ReadTheWholeFile(filename);
 		contents = this->filecontents;
 	}
 
-	return 0;
+	return exitCode;
 }
 
 int KP_FileReaderClass::FileReader::ReadTheWholeFile(const std::string& filename) {
 
 	std::ifstream file(filename);
 	std::string line;
+
+	if(!file) {
+		return COULD_NOT_OPEN_FILE;
+	}
 
 	for(;std::getline(file, line);) {
 
