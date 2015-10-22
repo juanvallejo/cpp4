@@ -6,6 +6,7 @@
  */
 
 #include <iostream>
+#include <fstream>
 #include <algorithm>
 #include <vector>
 #include <string>
@@ -27,7 +28,10 @@ int main() {
 	std::string contents;
 
 	KP_FileReaderClass::FileReader fileReader;
-	fileReader.getFileContents(TEST_FILE_NAME, contents);
+	int frStatus = fileReader.getFileContents(TEST_FILE_NAME, contents);
+	if(frStatus != SUCCEEDED) {
+		return frStatus;
+	}
 
 	//got file data, this is a bogus time and memory wasting step
 	//whose sole purpose is to provide a way to pass
@@ -39,17 +43,34 @@ int main() {
 	KP_StringParserClass::StringParserClass stringParser;
 
 	//TODO set the tags
-	stringParser.setTags(START_TAG, END_TAG);
+	if(!stringParser.setTags(START_TAG, END_TAG)) {
+		return stringParser.getLastError();
+	}
 
 	//TODO pull out the data
 	std::vector<std::string> strings;
 	const char* f_contents = contents.c_str();
-	stringParser.getDataBetweenTags((char *)f_contents, strings);
+	
+	if(!stringParser.getDataBetweenTags((char *)f_contents, strings)) {
+		return stringParser.getLastError();
+	}
 
 	//TODO  write to file and to screen
-	for(int i = 0; i < strings.size(); i++) {
-		std::cout << strings.at(i) << std::endl;
+
+	std::ofstream file(OUTPUTFILENAME);
+
+	if(!file) {
+		return COULD_NOT_WRITE_CONTAINER_TO_FILE;
 	}
+
+	for(int i = 0; i < strings.size(); i++) {
+
+		std::cout << strings.at(i) << std::endl;
+		file << strings.at(i) << std::endl;
+
+	}
+
+	return SUCCEEDED;
 
 }
 
