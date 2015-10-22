@@ -96,6 +96,15 @@ bool KP_StringParserClass::StringParserClass::findTag(char* pTagToLookFor, char*
 	bool match_found = false;
 	int match_iter = 0;
 
+	// cover cases where string has one char
+	if(strlen(pStart) < 2) {
+		if(*pTagToLookFor == *pStart) {
+			match_found = true;
+		}
+
+		return match_found;
+	}
+
 	while(iterator != pEnd) {
 
 		if(!match_started && *iterator == pTagToLookFor[match_iter] && (*(iterator + 1) != '\0') && *(iterator + 1) == pTagToLookFor[match_iter + 1]) {
