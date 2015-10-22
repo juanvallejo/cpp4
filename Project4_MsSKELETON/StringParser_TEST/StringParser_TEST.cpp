@@ -40,7 +40,6 @@ int main() {
 
 	//TODO set the tags
 	stringParser.setTags(START_TAG, END_TAG);
-	// stringParser.setTags("NOTE", "/NOTE");
 
 	//TODO pull out the data
 	std::vector<std::string> strings;

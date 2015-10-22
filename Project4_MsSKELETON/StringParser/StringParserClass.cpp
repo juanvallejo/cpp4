@@ -28,10 +28,9 @@ bool KP_StringParserClass::StringParserClass::setTags(const char* pStartTag, con
 	return true;
 }
 
-bool KP_StringParserClass::StringParserClass::getDataBetweenTags(char* pDataToSearchThru, vector<std::string>& myVector) {
+bool KP_StringParserClass::StringParserClass::getDataBetweenTags(char* pDataToSearchThru, std::vector<std::string>& myVector) {
 
 	if(!this->areTagsSet) {
-		// this->lastError = "Tags must be set (setTags()) before attempting to parse file contents";
 		this->lastError = ERROR_TAGS_NULL;
 		return false;
 	}
@@ -40,6 +39,9 @@ bool KP_StringParserClass::StringParserClass::getDataBetweenTags(char* pDataToSe
 		this->lastError = ERROR_DATA_NULL;
 		return false;
 	}
+
+	// true when inside current start and end tags
+	bool inTagMode = false;
 
 	char* line = (char *)malloc(sizeof(char) * 1000);
 	int lineIndex = 0;
@@ -59,8 +61,17 @@ bool KP_StringParserClass::StringParserClass::getDataBetweenTags(char* pDataToSe
 
 			// only save the string if the tag we're looking for
 			// is contained within the current string
-			if(this->findTag(this->pStartTag, lFirstChar, lLastChar) && this->findTag(this->pEndTag, lFirstChar, lLastChar)) {
+			if(!inTagMode && this->findTag(this->pStartTag, lFirstChar, lLastChar)) {
+				inTagMode = true;
+			}
+
+			// if inTagMode, we have found the start tag, add current lien to our collection
+			if(inTagMode) {
 				myVector.push_back(std::string(line));
+			}
+
+			if(inTagMode && this->findTag(this->pEndTag, lFirstChar, lLastChar)) {
+				inTagMode = false;
 			}
 
 			lineIndex = 0;
@@ -113,7 +124,7 @@ bool KP_StringParserClass::StringParserClass::findTag(char* pTagToLookFor, char*
 	return match_found;
 }
 
-void cleanup() {
+void KP_StringParserClass::StringParserClass::cleanup() {
 	this->areTagsSet = false;
 	this->lastError = ERROR_NO_ERROR;
 	this->pStartTag = 0;
