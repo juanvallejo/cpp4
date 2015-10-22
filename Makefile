@@ -19,7 +19,7 @@ StringParserClass.o: Project4_MsSKELETON/StringParser/StringParserClass.cpp Proj
 	$(CXX) $(CFLAGS) Project4_MsSKELETON/StringParser/StringParserClass.cpp $(IFLAGS)
 
 clean:
-	if [[ -d build ]]; then rm -rf build; else rm -f *.o; rm -f $(PROJECT); fi
+	if [[ -d build ]]; then rm -rf build; else rm -f *.o; rm -f $(PROJECT); fi; if [[ -f OutputStrings.txt ]]; then rm OutputStrings.txt; fi
 
 run:
 	if [[ -d build ]] && [[ -f build/$(PROJECT) ]]; then sh -c "./build/$(PROJECT)"; fi
